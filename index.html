@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adrianoski · Creatividad e ingeniería</title>
+<meta name="description" content="Adrianoski: ingeniero industrial, trader y desarrollador de software.">
+<meta property="og:title" content="Adrianoski · Creatividad e ingeniería">
+<meta property="og:description" content="Ingeniero industrial, trader y desarrollador de software.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- The tall box gives the page its scroll length; the stage inside stays pinned while the story plays. -->
+<div id="story" class="story" tabindex="-1">
+  <div id="stage" class="stage">
+
+    <canvas id="cv" class="cv" role="img" aria-label="Retrato que revela una versión hecha de código al pasar el puntero"></canvas>
+
+    <!-- 2 · Trayectoria (horizontal timeline) -->
+    <section id="trayectoria" class="tl" aria-label="Trayectoria">
+      <div class="tl-track" id="tlTrack">
+        <div class="tl-intro"><h2>Trayec<br>toria.</h2></div>
+        <div class="tl-line" id="tlLine"></div>
+        <div class="tl-fill" id="tlFill"></div>
+        <ol class="tl-items" id="tlItems">
+          <li class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2017</span>
+            <article class="tl-card">
+              <div class="tl-img"><span>Imagen 01</span><span>1312 × 760</span></div>
+              <h3>Ingeniería industrial</h3>
+              <p>Aprendí a pensar en sistemas: procesos, datos y mejora continua. La base de todo lo que vino después.</p>
+            </article>
+          </li>
+          <li class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2018</span>
+            <article class="tl-card">
+              <div class="tl-img"><span>Imagen 02</span><span>1312 × 760</span></div>
+              <h3>[Etapa 2]</h3>
+              <p>Primeros scripts para automatizar tareas repetitivas. Descubrí que programar era la forma más rápida de resolver problemas.</p>
+            </article>
+          </li>
+          <li class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">20XX</span>
+            <article class="tl-card">
+              <div class="tl-img"><span>Imagen 03</span><span>1312 × 760</span></div>
+              <h3>Trading</h3>
+              <p>Mercados, riesgo y disciplina. Empecé a construir mis propias herramientas para analizar y testear estrategias.</p>
+            </article>
+          </li>
+          <li class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">20XX</span>
+            <article class="tl-card">
+              <div class="tl-img"><span>Imagen 04</span><span>1312 × 760</span></div>
+              <h3>[Etapa 4]</h3>
+              <p>Backtests, optimizadores y dashboards: el trading y el código se volvieron una sola cosa.</p>
+            </article>
+          </li>
+          <li class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">20XX</span>
+            <article class="tl-card">
+              <div class="tl-img"><span>Imagen 05</span><span>1312 × 760</span></div>
+              <h3>Desarrollo de software</h3>
+              <p>Diseño y desarrollo productos de punta a punta, con la cabeza de ingeniero y el ojo puesto en el detalle.</p>
+            </article>
+          </li>
+          <li class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">Hoy</span>
+            <article class="tl-card">
+              <div class="tl-img"><span>Imagen 06</span><span>1312 × 760</span></div>
+              <h3>[Lo que viene]</h3>
+              <p>Proyectos donde la ingeniería, los datos y la creatividad se cruzan. ¿El próximo es el tuyo?</p>
+            </article>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 3 · Contacto (black curtain rising from below) -->
+    <section id="contacto" class="ct" aria-label="Contacto">
+      <svg class="ct-wave" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none">
+        <path d="M0,60 C180,20 360,90 560,55 C760,20 900,80 1100,48 C1260,24 1360,40 1440,30 L1440,90 L0,90 Z" fill="#000000"></path>
+        <path d="M0,60 C180,20 360,90 560,55 C760,20 900,80 1100,48 C1260,24 1360,40 1440,30" fill="none" stroke="#2EE6FF" stroke-width="2" vector-effect="non-scaling-stroke" opacity="0.85"></path>
+      </svg>
+      <div class="ct-body">
+        <div class="ct-inner" id="ctInner">
+          <div class="ct-main">
+            <h2>Hablemos.</h2>
+            <p>[Una línea sobre qué tipo de proyectos, trabajos o colaboraciones buscás.]</p>
+            <a class="ct-cta" data-email href="mailto:tu@email.com">Escribime
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+            </a>
+          </div>
+          <ul class="ct-links">
+            <li><a data-email data-email-text href="mailto:tu@email.com"><span class="ct-k">Email</span><span class="ct-v">[tu@email.com]</span></a></li>
+            <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener"><span class="ct-k">LinkedIn</span><span class="ct-v">[/in/usuario]</span></a></li>
+            <li><a href="https://github.com/" target="_blank" rel="noopener"><span class="ct-k">GitHub</span><span class="ct-v">[@usuario]</span></a></li>
+            <li><a href="https://www.instagram.com/" target="_blank" rel="noopener"><span class="ct-k">Instagram</span><span class="ct-v">[@usuario]</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Header, titles and HUD. main.js clones this layer in light colours and clips the copy to the dark areas. -->
+    <div id="uiDark" class="ui">
+      <header class="hdr">
+        <h1 class="brand">Adrianoski</h1>
+        <nav class="nav" aria-label="Principal">
+          <a href="#inicio" data-go="0">Inicio</a>
+          <a href="#trayectoria" data-go="5.5">Trayectoria</a>
+          <a href="#contacto" data-go="10.2">Contacto</a>
+        </nav>
+      </header>
+      <div class="duo">
+        <h2 class="duo-t duo-l">Creatividad.</h2>
+        <h2 class="duo-t duo-r">Ingeniería.</h2>
+      </div>
+      <div class="hud">
+        <div>
+          <span>Capa oculta · 3 niveles</span>
+          <span data-hud>X 0.50 · Y 0.50 · ESCANEANDO</span>
+        </div>
+        <div class="hud-end">
+          <span>Mové para revelar</span>
+          <span>Scroll para seguir</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll progress rail -->
+    <div class="rail" aria-hidden="true">
+      <div class="rail-fill" id="railFill"></div>
+      <div class="rail-mark" data-at="0"><span class="rail-label">Inicio</span><span class="rail-dot"></span></div>
+      <div class="rail-mark" data-at="1.6"><span class="rail-label">Escaneo</span><span class="rail-dot"></span></div>
+      <div class="rail-mark" data-at="4.6"><span class="rail-label">Trayectoria</span><span class="rail-dot"></span></div>
+      <div class="rail-mark" data-at="10.2"><span class="rail-label">Contacto</span><span class="rail-dot"></span></div>
+    </div>
+
+    <button type="button" class="cmd-btn" id="cmdBtn" aria-label="Abrir paleta de comandos"><span class="kbd">Ctrl K</span><span>Comandos</span></button>
+    <div class="toast" id="toast" role="status" hidden></div>
+
+    <!-- Command palette -->
+    <div class="pal" id="pal" hidden>
+      <button type="button" class="pal-backdrop" id="palBackdrop" aria-label="Cerrar paleta"></button>
+      <div class="pal-box" role="dialog" aria-modal="true" aria-label="Paleta de comandos">
+        <label class="pal-search">
+          <span aria-hidden="true" class="pal-prompt">&gt;</span>
+          <span class="sr-only">Buscar comando</span>
+          <input id="palInput" type="text" placeholder="Escribí un comando…" autocomplete="off" spellcheck="false">
+          <span aria-hidden="true" class="kbd kbd--muted">ESC</span>
+        </label>
+        <ul class="pal-list" id="palList"></ul>
+        <p class="pal-empty" id="palEmpty" hidden>Sin resultados</p>
+        <div class="pal-foot"><span>↑ ↓ Navegar</span><span>Enter Ejecutar</span></div>
+      </div>
+    </div>
+
+    <!-- Boot screen -->
+    <div class="boot" id="boot">
+      <div class="boot-brand">Adrianoski</div>
+      <button type="button" class="boot-skip" id="bootSkip">Saltar intro</button>
+      <div class="boot-lines" id="bootLines"></div>
+      <div class="boot-bar"><div class="boot-track"><div class="boot-fill" id="bootFill"></div></div><span class="boot-pct" id="bootPct">000%</span></div>
+    </div>
+
+    <!-- Reticle cursor -->
+    <div class="cur" id="cur" aria-hidden="true">
+      <div class="cur-ring" id="curRing"></div>
+      <div class="cur-dot"></div>
+      <div class="cur-t cur-t--n"></div><div class="cur-t cur-t--s"></div>
+      <div class="cur-t cur-t--w"></div><div class="cur-t cur-t--e"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
