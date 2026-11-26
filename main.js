@@ -53,7 +53,7 @@
       $$('h1, h2', light).forEach((h) => { const d = document.createElement('div'); d.className = h.className; d.innerHTML = h.innerHTML; h.replaceWith(d); });
       dark.after(light);
       this.uiLight = light;
-      this.hudEls = $$('[data-hud]');
+      this.scrollLabel = $('#scrollLabel'); this.scrollPct = $('#scrollPct');
 
       // Timeline
       this.tl = { el: $('#trayectoria'), track: $('#tlTrack'), line: $('#tlLine'), fill: $('#tlFill'), items: $$('.tl-item') };
@@ -531,6 +531,8 @@
         this.railFill.style.height = (gp * 100).toFixed(2) + '%';
         let active = 0; this.marks.forEach((mk, i) => { if (gp + 0.005 >= mk.at) active = i; });
         this.marks.forEach((mk, i) => { mk.el.classList.toggle('is-active', i === active); mk.el.classList.toggle('is-reached', i <= active); });
+        this.scrollPct.textContent = String(Math.round(gp * 100)).padStart(3, '0') + '%';
+        this.scrollLabel.textContent = gp < 0.01 ? 'Scroll' : gp > 0.995 ? 'Fin' : this.marks[active].el.textContent.trim();
       }
 
       this.updateBoot(now);
@@ -543,12 +545,6 @@
       this.cur.style.opacity = this.curOn ? '1' : '0';
       this.ring.style.transform = 'scale(' + (this.curHover ? 1.7 : 1) + ')';
 
-      // HUD readout
-      if (now - this.hudT > 150) {
-        this.hudT = now;
-        const txt = 'X ' + clamp01(this.hx).toFixed(2) + ' · Y ' + clamp01(this.hy).toFixed(2) + ' · ' + this.mode;
-        if (this.prev.hud !== txt) { this.prev.hud = txt; this.hudEls.forEach((el) => { el.textContent = txt; }); }
-      }
     }
 
     // ---------------- boot screen ----------------
