@@ -19,8 +19,8 @@ python3 -m http.server 8000
 Después entrá a http://localhost:8000. Usá un servidor local y no abras el archivo con doble clic, porque algunos navegadores bloquean las imágenes del canvas desde `file://`.
 
 ## Qué editar
-- **Tu email:** en `main.js`, cambiá `CONFIG.email`. Se actualizan solos el botón "Escribime", el link de Email y los comandos.
-- **Redes sociales:** en `index.html`, sección `contacto`. Cambiá los `href` y los textos `[@usuario]`.
+- **Email y WhatsApp:** en `main.js`, `CONFIG.email` y `CONFIG.whatsapp` (formato `https://wa.me/549...`). Se actualizan solos los botones y los comandos.
+- **Redes sociales:** en `index.html`, sección `contacto`. Cambiá los `href` y los textos de cada botón.
 - **Línea de tiempo:** en `index.html`, cada `<li class="tl-item">` es un hito. Cambiá el año, el título y la descripción. Para poner una foto, agregá `<img src="assets/mi-foto.jpg" alt="Descripción">` dentro de `<div class="tl-img">`. Podés sumar o quitar hitos y el ancho se ajusta solo.
 - **Efectos:** en `main.js`, objeto `CONFIG`:
   - `hiddenLayer`: `'codigo'` o `'robot'`

@@ -9,7 +9,8 @@
   // CONFIG
   // ------------------------------------------------------------------
   const CONFIG = {
-    email: 'tu@email.com',        // used by the contact links, "Copiar email" and "Escribirme"
+    email: 'ing.adgarcia@gmail.com',  // contact button, "Copiar email" and "Escribirme un email"
+    whatsapp: 'https://wa.me/5493874573000',  // "Escribime" button and the WhatsApp command
     hiddenLayer: 'codigo',        // 'codigo' or 'robot': the image revealed under the photo
     transition: 'tiles',          // 'tiles' (squares flipping) or 'laser' (scan lines)
     trailSize: 1,                 // size of the smoke trail (0.5 – 2)
@@ -70,7 +71,7 @@
       // Contact
       this.ctEl = $('#contacto'); this.ctInner = $('#ctInner');
       $$('[data-email]').forEach((a) => { a.href = 'mailto:' + CONFIG.email; });
-      $$('[data-email-text] .ct-v').forEach((s) => { s.textContent = CONFIG.email; });
+      $$('[data-whatsapp]').forEach((a) => { a.href = CONFIG.whatsapp; });
 
       // Rail
       this.railFill = $('#railFill');
@@ -591,6 +592,7 @@
         { label: 'Ir a la trayectoria', hint: 'Navegar', act: () => this.scrollToVh(4.9) },
         { label: 'Ir a contacto', hint: 'Navegar', act: () => this.scrollToVh(CONFIG.END) },
         { label: 'Copiar email', hint: 'Acción', act: () => this.copyEmail() },
+        { label: 'Escribirme por WhatsApp', hint: 'Acción', act: () => { window.open(CONFIG.whatsapp, '_blank', 'noopener'); } },
         { label: 'Escribirme un email', hint: 'Acción', act: () => { window.location.href = 'mailto:' + CONFIG.email; } },
         { label: 'Alternar capa oculta (código / robot)', hint: 'Efecto', act: () => { this.layerAlt = this.currentLayer() === 'codigo' ? 'robot' : 'codigo'; } },
         { label: 'Repetir la intro', hint: 'Efecto', act: () => this.restartBoot() }
