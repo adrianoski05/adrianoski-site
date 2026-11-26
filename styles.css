@@ -59,6 +59,12 @@ body { font-family: var(--sans); color: var(--ink); }
 }
 .duo-l { right: 64%; text-align: right; }
 .duo-r { left: 63%; }
+@media (max-width: 700px) {
+  /* Phones: titles stack above the portrait instead of flanking it. */
+  .duo-t { left: 20px; right: 20px; transform: none; text-align: left; font-size: clamp(32px, 11vw, 48px); white-space: nowrap; }
+  .duo-l { top: 140px; }
+  .duo-r { top: calc(140px + 0.95em); }
+}
 
 .hud {
   position: absolute; left: 0; right: 0; bottom: 0;
