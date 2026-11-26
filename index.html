@@ -119,6 +119,7 @@
           <a href="#trayectoria" data-go="4.9">Trayectoria</a>
           <a href="#contacto" data-go="9.6">Contacto</a>
         </nav>
+        <button type="button" class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnav"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><path d="M3 7h18"></path><path d="M3 12h18"></path><path d="M3 17h12"></path></svg></button>
       </header>
       <div class="duo">
         <h2 class="duo-t duo-l">Creatividad</h2>
@@ -157,6 +158,27 @@
         <ul class="pal-list" id="palList"></ul>
         <p class="pal-empty" id="palEmpty" hidden>Sin resultados</p>
         <div class="pal-foot"><span>↑ ↓ Navegar</span><span>Enter Ejecutar</span></div>
+      </div>
+    </div>
+
+    <!-- Phone menu (burger) -->
+    <div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menú" hidden>
+      <div class="mnav-top">
+        <span class="mnav-brand">Adrianoski</span>
+        <button type="button" class="mnav-close" id="mnavClose" aria-label="Cerrar menú"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><path d="M5 5l14 14"></path><path d="M19 5L5 19"></path></svg></button>
+      </div>
+      <nav class="mnav-links" aria-label="Secciones">
+        <a href="#inicio" data-go="0"><span class="mnav-n">01</span><span>Inicio</span></a>
+        <a href="#trayectoria" data-go="4.9"><span class="mnav-n">02</span><span>Trayectoria</span></a>
+        <a href="#contacto" data-go="9.6"><span class="mnav-n">03</span><span>Contacto</span></a>
+      </nav>
+      <section class="mnav-cmds" aria-label="Acciones rápidas">
+        <h2>&gt; Comandos</h2>
+        <ul id="mnavCmds"></ul>
+      </section>
+      <div class="mnav-foot">
+        <div class="mnav-track"><div class="mnav-fill" id="mnavFill"></div></div>
+        <div class="mnav-meta"><span id="mnavLabel">Estás en inicio</span><span id="mnavPct">000%</span></div>
       </div>
     </div>
 

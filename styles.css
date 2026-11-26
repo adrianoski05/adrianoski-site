@@ -15,7 +15,7 @@ body { font-family: var(--sans); color: var(--ink); }
 /* ---------- Pinned stage ---------- */
 .story { position: relative; width: 100%; height: 1060vh; outline: none; }
 .stage {
-  position: sticky; top: 0; width: 100%; height: 100vh; min-height: 560px;
+  position: sticky; top: 0; width: 100%; height: 100vh; height: 100svh; min-height: 560px;
   overflow: hidden; background: var(--bg); touch-action: pan-y;
 }
 @media (pointer: fine) {
@@ -281,6 +281,87 @@ body { font-family: var(--sans); color: var(--ink); }
 .cur-t--s { left: -0.75px; top: 20px; width: 1.5px; height: 8px; }
 .cur-t--w { left: -28px; top: -0.75px; width: 8px; height: 1.5px; }
 .cur-t--e { left: 20px; top: -0.75px; width: 8px; height: 1.5px; }
+
+/* ---------- Burger + phone menu ---------- */
+.burger {
+  display: none; width: 44px; height: 44px; padding: 0; align-items: center; justify-content: center;
+  border: 1.5px solid currentColor; background: transparent; color: inherit; pointer-events: auto;
+}
+.mnav {
+  position: absolute; inset: 0; z-index: 47; display: flex; flex-direction: column;
+  background: #0B0D10; color: var(--light); overflow-y: auto;
+}
+.mnav[hidden] { display: none; }
+.mnav-top { display: flex; justify-content: space-between; align-items: center; padding: 20px 16px 0 20px; }
+.mnav-brand { font-size: 26px; line-height: 1; font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase; }
+.mnav-close {
+  width: 44px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--cyan); background: transparent; color: var(--cyan);
+}
+.mnav-links { margin-top: 48px; padding: 0 20px; display: flex; flex-direction: column; }
+.mnav-links a {
+  display: flex; align-items: baseline; gap: 14px; padding: 10px 0; color: inherit; text-decoration: none;
+  border-bottom: 1px solid rgba(243, 242, 238, 0.12);
+  font-size: clamp(36px, 11vw, 46px); line-height: 1; font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase;
+}
+.mnav-links a.is-current { color: var(--cyan); }
+.mnav-n { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0; color: var(--cyan); }
+.mnav-cmds { margin-top: 36px; padding: 0 20px; font-family: var(--mono); }
+.mnav-cmds h2 { margin: 0 0 8px; font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(243, 242, 238, 0.6); }
+.mnav-cmds ul { list-style: none; margin: 0; padding: 0; }
+.mnav-cmds button {
+  width: 100%; min-height: 48px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 0 12px; border: 0; background: transparent; color: var(--light); font-family: inherit; font-size: 14px; text-align: left;
+}
+.mnav-cmds button:hover, .mnav-cmds button:focus-visible { background: rgba(46, 230, 255, 0.14); color: var(--cyan); outline: none; }
+.mnav-foot {
+  margin-top: auto; padding: 32px 20px 24px; display: flex; flex-direction: column; gap: 10px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243, 242, 238, 0.6);
+}
+.mnav-track { height: 2px; background: rgba(243, 242, 238, 0.15); }
+.mnav-fill { height: 100%; width: 0; background: var(--cyan); }
+.mnav-meta { display: flex; justify-content: space-between; }
+
+/* ---------- Vertical timeline (phones; .is-narrow is set by main.js) ---------- */
+.is-narrow .tl { -webkit-mask-image: linear-gradient(transparent 0, #000 120px, #000 calc(100% - 84px), transparent 100%); mask-image: linear-gradient(transparent 0, #000 120px, #000 calc(100% - 84px), transparent 100%); }
+.is-narrow .tl-track { left: 0; right: 0; bottom: auto; width: auto !important; padding-bottom: 48px; }
+.is-narrow .tl-intro { position: relative; left: auto; top: auto; transform: none; width: auto; padding: 0 20px 28px; }
+.is-narrow .tl-intro h2 { font-size: clamp(44px, 14vw, 56px); }
+.is-narrow .tl-line { left: 27px; width: 1px !important; }
+.is-narrow .tl-fill { left: 26px; width: 3px !important; height: 0; }
+.is-narrow .tl-items { display: flex; flex-direction: column; gap: 34px; padding: 0 16px 0 56px; }
+.is-narrow .tl-item { position: relative; top: auto; bottom: auto; left: auto !important; width: auto; display: flex; flex-direction: column; gap: 10px; }
+.is-narrow .tl-dot { left: -36px; top: 12px; }
+.is-narrow .tl-year { position: static; width: auto; text-align: left; font-size: 40px; }
+.is-narrow .tl-card { position: static; width: auto; }
+.is-narrow .tl-img { height: 150px; }
+.is-narrow .tl-card h3 { font-size: 20px; }
+.is-narrow .tl-card p { font-size: 14px; }
+
+/* ---------- Phones ---------- */
+@media (max-width: 700px) {
+  .hdr { padding: 20px 16px 0 20px; align-items: center; flex-wrap: nowrap; }
+  .brand { font-size: clamp(32px, 10vw, 44px); }
+  .nav { display: none; }
+  .burger { display: flex; }
+  .rail, .cmd-btn { display: none; }
+
+  .boot { padding: 24px 20px 104px; }
+  .boot-brand { left: 20px; top: 24px; font-size: clamp(32px, 11vw, 44px); }
+  .boot-skip { left: 20px; right: 20px; top: auto; bottom: 32px; min-height: 48px; font-size: 12px; }
+  .boot-lines { font-size: 11.5px; }
+  .boot-lines div { white-space: pre-wrap; }
+
+  .ct-body { align-items: flex-start; padding: 104px 20px 72px; overflow-y: auto; }
+  .ct-inner { gap: 28px; }
+  .ct-main { flex-basis: auto; gap: 16px; }
+  .ct-main h2 { font-size: clamp(44px, 14vw, 64px); }
+  .ct-main p { font-size: 16px; }
+  .ct-cta { align-self: stretch; justify-content: center; }
+  .ct-links { flex-basis: auto; gap: 8px; }
+  .ct-btn { min-height: 58px; padding: 8px 14px; gap: 14px; }
+  .ct-v { font-size: 16px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .cur-ring, .tl-dot, .rail-dot, .rail-label { transition: none; }

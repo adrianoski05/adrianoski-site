@@ -64,9 +64,6 @@
       });
       this.tlStart = 640; this.tlStep = 320;
       this.trackW = this.tlStart + this.tl.items.length * this.tlStep + 340 + 140;
-      this.tl.track.style.width = this.trackW + 'px';
-      this.tl.line.style.width = (this.trackW - 600 - 140) + 'px';
-      this.tl.items.forEach((li, i) => { li.style.left = (this.tlStart + i * this.tlStep) + 'px'; });
 
       // Contact
       this.ctEl = $('#contacto'); this.ctInner = $('#ctInner');
@@ -77,6 +74,11 @@
       this.railFill = $('#railFill');
       this.marks = $$('.rail-mark').map((el) => ({ el, at: parseFloat(el.dataset.at) / CONFIG.END }));
       this.marks.forEach((m) => { m.el.style.top = (m.at * 100) + '%'; });
+
+      // Phone menu
+      this.burger = $('#burger');
+      this.mnav = { el: $('#mnav'), close: $('#mnavClose'), cmds: $('#mnavCmds'), fill: $('#mnavFill'), label: $('#mnavLabel'), pct: $('#mnavPct'), links: $$('.mnav-links a'), open: false };
+      this.buildMenuCmds();
 
       // Boot, palette, toast, cursor
       this.boot = { el: $('#boot'), lines: $('#bootLines'), fill: $('#bootFill'), pct: $('#bootPct'), shown: 0, start: null, on: CONFIG.intro && !reduceMotion };
@@ -104,11 +106,18 @@
       w.addEventListener('pointerdown', (e) => this.move(e));
       w.addEventListener('pointerleave', () => { this.ptr.last = null; this.curOn = false; });
 
-      $$('[data-go]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); this.scrollToVh(parseFloat(a.dataset.go)); }));
+      $$('[data-go]').forEach((a) => a.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.mnav.open) this.closeMenu();
+        this.scrollToVh(parseFloat(a.dataset.go));
+      }));
+      this.burger.addEventListener('click', () => this.openMenu());
+      this.mnav.close.addEventListener('click', () => this.closeMenu());
 
       window.addEventListener('keydown', (e) => {
         if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); this.pal.open ? this.closePal() : this.openPal(); }
         else if (e.key === 'Escape' && this.pal.open) { e.preventDefault(); this.closePal(); }
+        else if (e.key === 'Escape' && this.mnav.open) { e.preventDefault(); this.closeMenu(); }
       });
       $('#cmdBtn').addEventListener('click', () => this.openPal());
       $('#palBackdrop').addEventListener('click', () => this.closePal());
@@ -159,6 +168,29 @@
       this.kmImg = this.km.getContext('2d').createImageData(this.nw, this.nh);
       this.glImg = this.gl.getContext('2d').createImageData(this.nw, this.nh);
       this.initGrid(); this.drawBase(); this.drawReveal(); this.drawBin();
+      this.narrow = w <= 700;
+      this.wrap.classList.toggle('is-narrow', this.narrow);
+      this.layoutTimeline();
+    }
+    // Desktop: items side by side on a horizontal track. Phones: a vertical list (CSS) we measure here.
+    layoutTimeline() {
+      const t = this.tl;
+      if (this.narrow) {
+        t.track.style.width = ''; t.line.style.width = '';
+        t.items.forEach((li) => { li.style.left = ''; });
+        const list = $('#tlItems');
+        this.trackH = t.track.offsetHeight;
+        this.lineTop = list.offsetTop; this.lineH = list.offsetHeight;
+        t.line.style.top = this.lineTop + 'px'; t.line.style.height = this.lineH + 'px';
+        t.fill.style.top = this.lineTop + 'px';
+        t.items.forEach((li) => { li._top = li.offsetTop; });
+      } else {
+        t.track.style.width = this.trackW + 'px';
+        t.line.style.width = (this.trackW - 600 - 140) + 'px';
+        t.line.style.top = ''; t.line.style.height = ''; t.fill.style.top = ''; t.fill.style.height = '';
+        t.items.forEach((li, i) => { li.style.left = (this.tlStart + i * this.tlStep) + 'px'; });
+      }
+      this.prev.tl = null;
     }
 
     // ---------------- portrait ----------------
@@ -166,7 +198,8 @@
     rect() {
       const w = this.w, h = this.h, ar = 1312 / 1199;
       let ih = h * CONFIG.photoScale, iw = ih * ar;
-      if (iw > w * 0.98) { iw = w * 0.98; ih = iw / ar; }
+      if (w <= 700) { ih = Math.min(h * 0.62, (w * 1.4) / ar); iw = ih * ar; }
+      else if (iw > w * 0.98) { iw = w * 0.98; ih = iw / ar; }
       return { x: (w - iw) / 2, y: h - ih, w: iw, h: ih };
     }
     geo() {
@@ -498,8 +531,23 @@
 
       // Timeline
       const tl = +this.tlP.toFixed(4);
-      if (this.prev.tl !== tl || this.prev.tlW !== this.w) {
+      if ((this.prev.tl !== tl || this.prev.tlW !== this.w) && this.narrow) {
         this.prev.tl = tl; this.prev.tlW = this.w;
+        const H = this.h, tlY = H - 96 - tl * Math.max(0, this.trackH - 56), centre = H * 0.5;
+        this.tl.el.style.opacity = tl > 0.0005 ? '1' : '0';
+        this.tl.track.style.transform = 'translateY(' + tlY.toFixed(1) + 'px)';
+        this.tl.fill.style.height = Math.max(0, Math.min(this.lineH, centre - tlY - this.lineTop)) + 'px';
+        this.tl.items.forEach((li) => {
+          const v = clamp01((H * 0.92 - (tlY + li._top)) / (H * 0.3));
+          li._card.style.opacity = v.toFixed(3);
+          li._card.style.transform = 'translateY(' + ((1 - v) * 24).toFixed(1) + 'px)';
+          li._img.style.clipPath = 'inset(0 0 ' + ((1 - v) * 100).toFixed(1) + '% 0)';
+          li._year.style.color = 'rgba(243,242,238,' + (0.15 + 0.75 * v).toFixed(3) + ')';
+          li.classList.toggle('is-passed', tlY + li._top + 24 < centre);
+        });
+      } else if (this.prev.tl !== tl || this.prev.tlW !== this.w) {
+        this.prev.tl = tl; this.prev.tlW = this.w;
+        this.tl.track.style.transform = '';
         const W = this.w, tlX = W - 96 - tl * (this.trackW - 96), centre = W * 0.5;
         this.tl.el.style.opacity = tl > 0.0005 ? '1' : '0';
         this.tl.track.style.transform = 'translateX(' + tlX.toFixed(1) + 'px)';
@@ -535,6 +583,11 @@
         this.marks.forEach((mk, i) => { mk.el.classList.toggle('is-active', i === active); mk.el.classList.toggle('is-reached', i <= active); });
         this.scrollPct.textContent = String(Math.round(gp * 100)).padStart(3, '0') + '%';
         this.scrollLabel.textContent = gp < 0.01 ? 'Scroll' : gp > 0.995 ? 'Fin' : this.marks[active].el.textContent.trim();
+        this.mnav.fill.style.width = (gp * 100).toFixed(1) + '%';
+        this.mnav.pct.textContent = this.scrollPct.textContent;
+        this.mnav.label.textContent = 'Estás en ' + this.marks[active].el.textContent.trim().toLowerCase();
+        const sect = active >= 3 ? 2 : active === 2 ? 1 : 0;
+        this.mnav.links.forEach((a, i) => a.classList.toggle('is-current', i === sect));
       }
 
       this.updateBoot(now);
@@ -582,6 +635,29 @@
     scrollToVh(n) {
       const top = this.outer.getBoundingClientRect().top + window.scrollY + n * this.wrap.clientHeight;
       window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+
+    // ---------------- phone menu ----------------
+    buildMenuCmds() {
+      this.commands().filter((c) => c.hint !== 'Navegar').forEach((c) => {
+        const li = document.createElement('li');
+        const b = document.createElement('button'); b.type = 'button';
+        const l = document.createElement('span'); l.textContent = c.label;
+        const h = document.createElement('span'); h.className = 'pal-hint'; h.textContent = c.hint;
+        b.append(l, h);
+        b.addEventListener('click', () => { this.closeMenu(); setTimeout(() => c.act(), 40); });
+        li.appendChild(b); this.mnav.cmds.appendChild(li);
+      });
+    }
+    openMenu() {
+      this.mnav.open = true; this.mnav.el.hidden = false;
+      this.burger.setAttribute('aria-expanded', 'true');
+      this.mnav.close.focus();
+    }
+    closeMenu() {
+      this.mnav.open = false; this.mnav.el.hidden = true;
+      this.burger.setAttribute('aria-expanded', 'false');
+      this.burger.focus({ preventScroll: true });
     }
 
     // ---------------- command palette ----------------
