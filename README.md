@@ -28,7 +28,7 @@ Después entrá a http://localhost:8000. Usá un servidor local y no abras el ar
   - `intro`: pantalla de arranque
   - `perspective`: grados de giro de la cabeza
   - `trailSize`, `autopilot`, `photoScale`, `background`
-- **Largo del scroll:** `CONFIG.HERO`, `TIMELINE` y `CONTACT`, en pantallas. Si los cambiás, actualizá `END` (la suma) y el `height` de `.story` en `styles.css` (`END + 1` pantallas, en `vh`).
+- **Largo del scroll:** `CONFIG.HERO`, `TL_START`, `TIMELINE` y `CONTACT`, en pantallas. Si los cambiás, actualizá `END` (`TL_START + TIMELINE + CONTACT`) y el `height` de `.story` en `styles.css` (`END + 1` pantallas, en `vh`).
 
 ## Publicarlo
 Sirve cualquier hosting estático. Arrastrá la carpeta a:

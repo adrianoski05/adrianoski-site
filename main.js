@@ -23,11 +23,12 @@
       robot: 'assets/robot.webp',
       code: 'assets/codigo.png'
     },
-    // Scroll budget, in screen heights. Keep .story height in styles.css = END + 1 screens (here 11.2 → 1120vh).
+    // Scroll budget, in screen heights. Keep .story height in styles.css = END + 1 screens (here 10.6 → 1060vh).
     HERO: 4.6,       // photo → scan → dissolve
+    TL_START: 4.0,   // the timeline starts sliding in while the last of the portrait dissolves
     TIMELINE: 4.2,   // horizontal timeline
     CONTACT: 1.4,    // contact curtain
-    END: 10.2
+    END: 9.6
   };
 
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -203,7 +204,7 @@
       if (!(this.k3 > 0.001) || !this.kmImg) { this.warp(g, this.hiddenImg(), this.yaw || 0, this.pitch || 0); return; }
       // Final phase: the hidden portrait burns away behind a flowing neon edge.
       const rc = this.C.rob;
-      this.dissolve(-0.12 + this.k3 * 1.3, (performance.now() - this.t0) / 1000);
+      this.dissolve(-0.12 + this.k3 * 1.16, (performance.now() - this.t0) / 1000);
       rc.globalCompositeOperation = 'source-over'; rc.clearRect(0, 0, W, H);
       this.warp(rc, this.hiddenImg(), this.yaw || 0, this.pitch || 0);
       const gc = this.C.glw;
@@ -395,12 +396,12 @@
       // Scroll progress through the tall box (the stage stays pinned meanwhile).
       const ro = this.outer.getBoundingClientRect(), vh = Math.max(1, this.wrap.getBoundingClientRect().height), s = -ro.top;
       const prog = clamp01(s / (vh * CONFIG.HERO));
-      const tlp = clamp01((s - vh * CONFIG.HERO) / (vh * CONFIG.TIMELINE));
-      const ctp = clamp01((s - vh * (CONFIG.HERO + CONFIG.TIMELINE)) / (vh * CONFIG.CONTACT));
+      const tlp = clamp01((s - vh * CONFIG.TL_START) / (vh * CONFIG.TIMELINE));
+      const ctp = clamp01((s - vh * (CONFIG.TL_START + CONFIG.TIMELINE)) / (vh * CONFIG.CONTACT));
       this.gp = clamp01(s / (vh * CONFIG.END));
       const ease = (cur, target) => { const v = cur + (target - cur) * Math.min(1, 0.14 * dt); return Math.abs(target - v) < 0.0005 ? target : v; };
       this.pc = ease(this.pc, prog); this.tlP = ease(this.tlP, tlp); this.ctP = ease(this.ctP, ctp);
-      this.k3 = smooth((this.pc - 0.64) / 0.36);
+      this.k3 = smooth((this.pc - 0.56) / 0.36);
 
       // Idle: the trail wanders over the face on its own.
       if (now - this.ptr.lastT > 2200) {
@@ -489,7 +490,7 @@
     updateDom(now, clip) {
       // Header shrinks; the two titles fade in with the transition, hold, then fade out before the dissolve.
       this.setVar('--hs', (1 - 0.45 * Math.min(1, this.pc / 0.25)).toFixed(3));
-      const tOp = clamp01(Math.min((this.pc - 0.12) / 0.15, 1 - (this.pc - 0.57) / 0.06));
+      const tOp = clamp01(Math.min((this.pc - 0.12) / 0.15, 1 - (this.pc - 0.56) / 0.06));
       this.setVar('--tOp', tOp.toFixed(3));
       this.setVar('--tY', ((1 - tOp) * 40).toFixed(1));
       if (this.prev.clip !== clip) { this.prev.clip = clip; this.uiLight.style.clipPath = clip; }
@@ -498,7 +499,7 @@
       const tl = +this.tlP.toFixed(4);
       if (this.prev.tl !== tl || this.prev.tlW !== this.w) {
         this.prev.tl = tl; this.prev.tlW = this.w;
-        const W = this.w, tlX = W - tl * this.trackW, centre = W * 0.5;
+        const W = this.w, tlX = W - 96 - tl * (this.trackW - 96), centre = W * 0.5;
         this.tl.el.style.opacity = tl > 0.0005 ? '1' : '0';
         this.tl.track.style.transform = 'translateX(' + tlX.toFixed(1) + 'px)';
         this.tl.fill.style.width = Math.max(0, Math.min(this.trackW - 740, centre - tlX - 600)) + 'px';
@@ -587,7 +588,7 @@
       return [
         { label: 'Ir al inicio', hint: 'Navegar', act: () => this.scrollToVh(0) },
         { label: 'Ver el escaneo', hint: 'Navegar', act: () => this.scrollToVh(2.2) },
-        { label: 'Ir a la trayectoria', hint: 'Navegar', act: () => this.scrollToVh(5.5) },
+        { label: 'Ir a la trayectoria', hint: 'Navegar', act: () => this.scrollToVh(4.9) },
         { label: 'Ir a contacto', hint: 'Navegar', act: () => this.scrollToVh(CONFIG.END) },
         { label: 'Copiar email', hint: 'Acción', act: () => this.copyEmail() },
         { label: 'Escribirme un email', hint: 'Acción', act: () => { window.location.href = 'mailto:' + CONFIG.email; } },
